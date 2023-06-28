@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如何用 css 或 js 实现多行文本溢出省略效果</title>
+    <style>
+        div{
+            width: 200px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .line-one{
+            overflow: hidden; text-overflow:ellipsis; white-space: nowrap;
+        }
+
+        .line-more{
+            display: -webkit-box; 
+            -webkit-box-orient: vertical; 
+            -webkit-line-clamp: 3; 
+            overflow: hidden;
+        }
+         
+        .line-more-2{
+            position: relative; 
+            line-height: 20px; 
+            max-height: 40px;
+            overflow: hidden;
+        }
+        .line-more-2::after{
+            content: "..."; position: absolute; bottom: 0; right: 0; padding-left: 40px; 
+            background: -webkit-linear-gradient(left, transparent, #fff 55%); 
+            background: -o-linear-gradient(right, transparent, #fff 55%); 
+            background: -moz-linear-gradient(right, transparent, #fff 55%); 
+            background: linear-gradient(to right, transparent, #fff 55%);
+        }
+
+        p {
+            height: 5em;
+            width: 10em;
+            border: 2px;
+            /*   box-sizing: border-box; */
+            
+            overflow: hidden;
+            text-overflow: ellipsis;
+            border: 2px solid red;
+            position: relative;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 单行 -->
+    <div class="line-one">实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果</div>
+
+    <!-- 多行 1-->
+    <div class="line-more">实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果</div>
+    
+    <!-- 多行 2 -->
+    <div class="line-more-2">实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果实现多行文本溢出省略效果</div>
+
+    <!-- JS实现版本 -->
+    <p>这是一段测试文字，this is some test text，测试文字，测试文字测 </p>
+    <script>
+            // 使用split + 正则表达式将单词与单个文字切割出来存入words
+            // 加上 '...'
+            // 判断scrollHeight与clientHeight，超出的话就从words中pop一个出来
+        const p = document.querySelector('p')
+        let words = p.innerHTML.split(/(?<=[\u4e00-\u9fa5])|(?<=\w*?\b)/g)
+        debugger
+        while (p.scrollHeight > p.clientHeight) {
+        words.pop()
+        p.innerHTML = words.join('') + '...'
+        }
+    </script>
+</body>
+</html>
